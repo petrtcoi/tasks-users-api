@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 
@@ -25,6 +25,11 @@ app.use(cookieParser())
 // ROUTERS
 app.use('/tasks', authUser, tasksRouter)
 app.use('/users', usersRouter)
+app.get('/', (_,res) => {
+  res.status(200).send('Im alive')
+  return
+})
+
 
 // ERROR HANDLER
 app.use(handleError)
