@@ -20,6 +20,7 @@ const fakeTask: TaskType = {
 }
 
 describe('TASKS', () => {
+  jest.setTimeout(30000)
 
   afterAll(async () => {
     await mongoose.connection.close()
@@ -119,31 +120,31 @@ describe('TASKS', () => {
         expect(updatedTask).not.toBe(null)
       })
 
-      test("Не позволяет делать title пустым", async() => {
+      test("Не позволяет делать title пустым", async () => {
         await request(app)
           .patch(`/tasks/${taskId}`)
-          .send({title: ""})
+          .send({ title: "" })
           .expect(400)
       })
 
-      test("Не позволяет делать ownerId пустым", async() => {
+      test("Не позволяет делать ownerId пустым", async () => {
         await request(app)
           .patch(`/tasks/${taskId}`)
-          .send({ownerId: ""})
+          .send({ ownerId: "" })
           .expect(400)
       })
 
-      test("Позволяет description делать пустым", async() => {
+      test("Позволяет description делать пустым", async () => {
         await request(app)
           .patch(`/tasks/${taskId}`)
-          .send({description: ""})
+          .send({ description: "" })
           .expect(200)
       })
 
-      test("Позволяет deadlineDayIso делать пустым - NULL", async() => {
+      test("Позволяет deadlineDayIso делать пустым - NULL", async () => {
         await request(app)
           .patch(`/tasks/${taskId}`)
-          .send({deadlineDayIso: null})
+          .send({ deadlineDayIso: null })
           .expect(200)
       })
 
@@ -160,7 +161,59 @@ describe('TASKS', () => {
   })
 
   describe('GET LIST OF TASKS', () => {
-    
+    const totalQny = fakeTasks.length
+
+    beforeAll(async () => {
+      await Task.deleteMany({})
+      for (const task of fakeTasks) {
+        await (new Task(task)).save()
+      }
+    })
+
+    test("Берет 11 задач", async () => {
+      const tasks = await request(app)
+        .get('/tasks')
+        .query({ limit: 11 })
+        .expect(200)
+      expect(tasks.body.length).toBe(11)
+    })
+
+    test("Не позволяет ставить limit в 0", async () => {
+      await request(app)
+        .get('/tasks')
+        .query({ limit: 0 })
+        .expect(400)
+    })
+
+    test("По-умолчанию выдает 10 задач", async () => {
+      const tasks = await request(app)
+        .get('/tasks')
+        .expect(200)
+      expect(tasks.body.length).toBe(10)
+    })
+
+    test("Допускает offset = 0", async () => {
+      const tasks = await request(app)
+        .get('/tasks')
+        .query({ offset: 0 })
+        .expect(200)
+    })
+
+    test("Берет 7 задач со смещением 2", async () => {
+
+      const tasks_1 = await request(app)
+        .get('/tasks')
+        .query({ limit: 7})
+        .expect(200)
+      const tasks_2 = await request(app)
+        .get('/tasks')
+        .query({ limit: 7, offset: 2 })
+        .expect(200)
+      console.log(tasks_1.body)
+      console.log(tasks_2.body)
+      expect(tasks_2.body.length).toBe(7)
+      expect(tasks_2.body[0]._id).toBe(tasks_1.body[2]._id)
+    })
   })
 
 })

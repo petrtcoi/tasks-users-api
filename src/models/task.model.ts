@@ -69,7 +69,7 @@ export function taskValidateSchemaGetListFilters() {
   return (
     Joi.object({
       limit: Joi.number().min(1).integer(),
-      offset: Joi.number().min(1).integer(),
+      offset: Joi.number().min(0).integer(),
       ownerId: Joi.string(),
       deadlineDayIso: Joi.date().iso()
     })
