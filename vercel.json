@@ -10,12 +10,12 @@
     {
       "src": "/(.*)",
       "dest": "/dist/index.js",
-      "headers": [
-        {
+      "headers": {
+        "headers": {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
         }
-      ]
+      }
     }
   ]
 }
