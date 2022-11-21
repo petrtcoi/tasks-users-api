@@ -9,12 +9,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/index.js"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
+      "dest": "/dist/index.js",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
