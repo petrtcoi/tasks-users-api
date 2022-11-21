@@ -20,7 +20,6 @@ Object.freeze(Object.prototype);
 const app = (0, express_1.default)();
 // MIDDLEWARE
 app.use((0, helmet_1.default)());
-app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
@@ -31,6 +30,7 @@ app.get('/', (_, res) => {
     res.status(200).send('Im alive');
     return;
 });
+app.use((0, cors_1.default)());
 // ERROR HANDLER
 app.use(handleError_1.handleError);
 mongoose_1.default.connect((_a = process.env.MONGODB_URL) !== null && _a !== void 0 ? _a : '', {})
