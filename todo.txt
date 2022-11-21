@@ -1,0 +1,6 @@
+*** MONGO ***
+Не рабоатет проверка на unique email для users
+MongoDB не создала индекс email в production. Создал в базе вручную
+Для development / test все создается нормально
+- Проблема в Atlas?
+- Проблема в Vercel?
