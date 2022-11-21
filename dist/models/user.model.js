@@ -37,6 +37,7 @@ const schema = new mongoose_1.default.Schema({
     timestamps: true,
     versionKey: false
 });
+schema.index({ email: 1 }, { unique: true });
 schema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
