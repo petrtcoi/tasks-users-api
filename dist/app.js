@@ -17,6 +17,8 @@ const authUser_1 = require("./middlewares/authUser");
 Object.freeze(Object.prototype);
 const app = (0, express_1.default)();
 // MIDDLEWARE
+// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
+app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());

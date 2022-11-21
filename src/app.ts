@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
+import helmet from 'helmet'
 
 import { dotenvConfig } from './env.config'
 
@@ -18,6 +19,8 @@ Object.freeze(Object.prototype)
 const app: Express = express()
 
 // MIDDLEWARE
+// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
+app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
