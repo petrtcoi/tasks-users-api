@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const helmet_1 = __importDefault(require("helmet"));
+const cors_1 = __importDefault(require("cors"));
 const env_config_1 = require("./env.config");
 require('express-async-errors');
 const router_1 = __importDefault(require("./endpoints/tasks/router"));
@@ -18,10 +19,8 @@ const authUser_1 = require("./middlewares/authUser");
 Object.freeze(Object.prototype);
 const app = (0, express_1.default)();
 // MIDDLEWARE
-// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
-app.use((0, helmet_1.default)({
-// crossOriginResourcePolicy: true
-}));
+app.use((0, helmet_1.default)());
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
