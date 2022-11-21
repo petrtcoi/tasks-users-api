@@ -34,6 +34,7 @@ const schema = new mongoose.Schema<UserType & Timestamps>({
   versionKey: false
 })
 
+schema.index({email: 1},{ unique: true } )
 
 schema.pre('save', async function (next) {
   const user = this
